@@ -13,11 +13,10 @@ A calendar and activity-planning app built with Next.js App Router, React, and T
 
 2. Set `DATABASE_URL` to your Neon pooled connection string and `DIRECT_URL` to its direct connection string. Generate a secret with `openssl rand -base64 32` and set `BETTER_AUTH_SECRET`.
 3. Create a Google OAuth Web client. Add `http://localhost:3000/api/auth/callback/google` as an authorized redirect URI, then set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`.
-4. Generate the Prisma client and create the auth tables:
+4. Apply the committed database migrations:
 
    ```bash
-   pnpm db:generate
-   pnpm exec prisma migrate dev --name init
+   pnpm db:migrate
    ```
 
 5. Start the app:
@@ -26,7 +25,21 @@ A calendar and activity-planning app built with Next.js App Router, React, and T
    pnpm dev
    ```
 
-Open [http://localhost:3000](http://localhost:3000). App routes require an authenticated Google account. For production, set the same environment variables in Vercel and add `https://your-domain.com/api/auth/callback/google` to the Google OAuth redirect URIs.
+Open [http://localhost:3000](http://localhost:3000). App routes require an authenticated Google account.
+
+## Production deployment
+
+Keep the Vercel Build Command as `pnpm build`; it generates Prisma Client and builds the app. Apply database migrations as a separate, controlled release step before promoting the corresponding app deployment:
+
+```bash
+pnpm db:migrate:deploy
+```
+
+The command uses `DIRECT_URL` from `prisma.config.ts`, so provide the Neon direct (unpooled) connection string to the migration job. Do not use `prisma migrate dev` against production or run migrations on every preview build. For previews, use an isolated Neon branch cloned from a database with the current schema and migration history.
+
+The existing migration history is already applied to the configured production database, but it is not ordered for a brand-new empty database: the activities migration adds a foreign key to `User` before the auth migration creates that table. Do not use `db:migrate` or `db:migrate:deploy` to initialize an empty database until the migration history is safely reconciled; do not rewrite migrations already applied in production.
+
+Set the runtime environment variables in Vercel and add `https://your-domain.com/api/auth/callback/google` to the Google OAuth redirect URIs. Ensure the Vercel production environment uses the intended production database.
 
 ## Project structure
 
@@ -37,7 +50,7 @@ Open [http://localhost:3000](http://localhost:3000). App routes require an authe
 - `src/lib/`, `src/types/`, and `src/constants/` contain auth/database clients, date utilities, domain types, and UI/sample data.
 - `components.json` configures shadcn/ui; generated primitives live in `src/components/ui/`.
 
-Authentication and session data are persisted in Neon. Planner activities and appearance settings remain client-side prototype data.
+Authentication, sessions, planner activities, and appearance settings are persisted in Neon PostgreSQL.
 
 ## Checks
 
