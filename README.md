@@ -37,7 +37,9 @@ pnpm db:migrate:deploy
 
 The command uses `DIRECT_URL` from `prisma.config.ts`, so provide the Neon direct (unpooled) connection string to the migration job. Do not use `prisma migrate dev` against production or run migrations on every preview build. For previews, use an isolated Neon branch cloned from a database with the current schema and migration history.
 
-The existing migration history is already applied to the configured production database, but it is not ordered for a brand-new empty database: the activities migration adds a foreign key to `User` before the auth migration creates that table. Do not use `db:migrate` or `db:migrate:deploy` to initialize an empty database until the migration history is safely reconciled; do not rewrite migrations already applied in production.
+Migrations are ordered by timestamp: auth tables (`User`) are created before activities adds its foreign key. This history can initialize a fresh database with `pnpm db:migrate:deploy`.
+
+The original activity migration was already applied to production under its old name (`20261104092304_add_activities`). The reordered activity migration has a new name, so production's recorded history will not match this directory. Do not run `pnpm db:migrate:deploy` against production until its migration history has been reconciled and backed up; production was not changed by reordering these files.
 
 Set the runtime environment variables in Vercel and add `https://your-domain.com/api/auth/callback/google` to the Google OAuth redirect URIs. Ensure the Vercel production environment uses the intended production database.
 
