@@ -515,91 +515,116 @@ h3 {
 }
 
 .mini-calendar {
+  position: relative;
   z-index: 1;
   width: min(100%, 530px);
-  padding: clamp(14px, 3vh, 22px);
-  transform: rotate(-1.2deg);
-  border-radius: 16px;
   background: #fff;
-  box-shadow: 0 35px 70px #09091f55;
   color: #182033;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 35px 70px #09091f55;
+  transform: rotate(-1.2deg);
 }
-
 .mini-top {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 19px;
 }
-
 .mini-top div:first-child {
   display: grid;
   gap: 2px;
 }
-
 .mini-top small {
-  color: #949bad;
   font-size: 8px;
+  color: #949bad;
   font-weight: 700;
   letter-spacing: 1px;
 }
-
 .mini-top strong {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
-
 .mini-arrows {
   color: #858c9d;
 }
-
 .mini-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
 }
-
 .mini-labels span {
-  padding-bottom: 8px;
+  text-align: center;
   color: #a0a6b3;
   font-size: 8px;
   font-weight: 700;
-  text-align: center;
+  padding-bottom: 8px;
 }
-
 .mini-grid > div {
   position: relative;
   aspect-ratio: 1.17;
+  border: 1px solid #eef0f4;
   margin: -0.5px;
   padding: 6px;
-  border: 1px solid #eef0f4;
-  color: #60687a;
   font-size: 9px;
+  color: #60687a;
 }
-
 .mini-grid .mini-today span {
   display: grid;
+  place-items: center;
   width: 17px;
   height: 17px;
-  margin-top: -3px;
-  border-radius: 50%;
   background: #5b5bd6;
   color: white;
-  place-items: center;
+  border-radius: 50%;
+  margin-top: -3px;
 }
-
+.dot {
+  display: block;
+  width: 72%;
+  height: 3px;
+  border-radius: 3px;
+  margin-top: 4px;
+  background: #9393ef;
+}
+.dot-1 {
+  background: #67cbb8;
+}
+.dot-2 {
+  background: #ef9ab1;
+}
+.mini-progress {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 17px;
+  font-size: 9px;
+  color: #798092;
+}
+.mini-progress span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mini-progress i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #5b5bd6;
+}
+.mini-progress b {
+  color: #5b5bd6;
+}
 .quote {
+  position: relative;
   z-index: 1;
   width: min(100%, 530px);
-  margin-top: clamp(16px, 4vh, 32px);
-  margin-bottom: 0;
-  color: #c6c7df;
   font-size: 11px;
+  color: #c6c7df;
+  margin-top: 32px;
 }
-
 .quote span {
   display: block;
-  margin-top: 6px;
   color: #8284aa;
+  margin-top: 6px;
 }
 
 /* App shell */
@@ -1393,7 +1418,11 @@ h3 {
   overflow: hidden;
   padding: 3px 5px;
   border: 1px solid
-    color-mix(in srgb, var(--activity-color) 22%, var(--activity-border, #c7d2fe));
+    color-mix(
+      in srgb,
+      var(--activity-color) 22%,
+      var(--activity-border, #c7d2fe)
+    );
   border-radius: 4px;
   background: color-mix(
     in srgb,
@@ -1416,7 +1445,11 @@ h3 {
 
 .day-activities button:not(.more-activities):hover {
   transform: translateX(1px);
-  border-color: color-mix(in srgb, var(--activity-color) 55%, var(--activity-border, #c7d2fe));
+  border-color: color-mix(
+    in srgb,
+    var(--activity-color) 55%,
+    var(--activity-border, #c7d2fe)
+  );
   background: color-mix(
     in srgb,
     var(--activity-color) 23%,
@@ -3060,14 +3093,6 @@ h3 {
 
   .art-copy h2 {
     font-size: 28px;
-  }
-
-  .mini-calendar {
-    padding: 12px;
-  }
-
-  .mini-grid > div {
-    padding: 4px;
   }
 
   .quote {

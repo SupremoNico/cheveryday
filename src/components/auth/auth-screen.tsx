@@ -16,19 +16,6 @@ export default function AuthScreen() {
       : undefined;
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(initialError);
-  const today = new Date();
-  const monthStart = new Date(today.getFullYear(), today.getMonth(), 1);
-  const leadingDays = (monthStart.getDay() + 6) % 7;
-  const daysInMonth = new Date(
-    today.getFullYear(),
-    today.getMonth() + 1,
-    0,
-  ).getDate();
-  const totalCells = Math.ceil((leadingDays + daysInMonth) / 7) * 7;
-  const miniCalendarDays = Array.from({ length: totalCells }, (_, index) => {
-    const day = index - leadingDays + 1;
-    return day > 0 && day <= daysInMonth ? day : null;
-  });
 
   async function signInWithGoogle() {
     setIsPending(true);
@@ -42,7 +29,9 @@ export default function AuthScreen() {
       });
 
       if (result.error) {
-        setError(result.error.message || "Google sign-in could not be started.");
+        setError(
+          result.error.message || "Google sign-in could not be started.",
+        );
       }
     } catch {
       setError(
@@ -66,7 +55,7 @@ export default function AuthScreen() {
           </div>
           <div className="auth-copy">
             <p className="eyebrow">WELCOME BACK</p>
-            <h1>Make time for what matters.</h1>
+            <h1>Spend each day with purpose.</h1>
             <p>Your time, tasks, and progress — all in one calm place.</p>
           </div>
           <div className="auth-form">
@@ -122,30 +111,30 @@ export default function AuthScreen() {
         <div className="mini-calendar">
           <div className="mini-top">
             <div>
-              <small>YOUR MONTH</small>
-              <strong>
-                {new Intl.DateTimeFormat("en", {
-                  month: "long",
-                  year: "numeric",
-                }).format(today)}
-              </strong>
+              <strong>MAY 2025</strong>
             </div>
             <div className="mini-arrows">‹　›</div>
           </div>
           <div className="mini-grid mini-labels">
-            {WEEKDAYS.map((day) => (
-              <span key={day}>{day[0]}</span>
+            {WEEKDAYS.map((d) => (
+              <span key={d}>{d[0]}</span>
             ))}
           </div>
           <div className="mini-grid">
-            {miniCalendarDays.map((day, index) => (
-              <div
-                key={`${today.getFullYear()}-${today.getMonth()}-${index}`}
-                className={day === today.getDate() ? "mini-today" : ""}
-              >
-                {day && <span>{day}</span>}
+            {Array.from({ length: 28 }, (_, i) => (
+              <div key={i} className={i === 14 ? "mini-today" : ""}>
+                <span>{i + 1}</span>
+                {[3, 7, 9, 14, 15, 19, 22].includes(i) && (
+                  <i className={`dot dot-${i % 3}`} />
+                )}
               </div>
             ))}
+          </div>
+          <div className="mini-progress">
+            <span>
+              <i /> 12 activities complete
+            </span>
+            <b>76%</b>
           </div>
         </div>
         <p className="quote">
