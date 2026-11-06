@@ -7,14 +7,21 @@ on:
 
   workflow_dispatch:
 
+# Prevent overlapping production deployments.
 concurrency:
   group: cheveryday-production
   cancel-in-progress: false
 
+permissions:
+  contents: read
+
 jobs:
   deploy:
-    name: Migrate and Deploy
+    name: Check, Migrate and Deploy
     runs-on: ubuntu-latest
+
+    # Prevent manual runs from deploying a non-main branch.
+    if: github.ref == 'refs/heads/main'
 
     steps:
       # 1. Checkout repository
@@ -38,17 +45,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 5. Run production database migrations
-      - name: Run production database migrations
-        run: pnpm db:migrate:deploy
-        env:
-          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+      # 5. Run ESLint and TypeScript checks
+      - name: Run code checks
+        run: pnpm check
 
       # 6. Install Vercel CLI
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      # 7. Pull Vercel production environment
+      # 7. Pull production environment variables
       - name: Pull Vercel production environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
@@ -61,8 +66,15 @@ jobs:
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
-      # 9. Deploy to Vercel
+      # 9. Run production database migrations
+      - name: Run production database migrations
+        run: pnpm db:migrate:deploy
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      # 10. Deploy prebuilt application to Vercel
       - name: Deploy to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
