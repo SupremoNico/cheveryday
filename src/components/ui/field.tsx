@@ -8,9 +8,9 @@ export default function Field({
   children: ReactNode;
 }) {
   return (
-    <label className="field">
+    <div className="field">
       <span>{label}</span>
       {children}
-    </label>
+    </div>
   );
 }

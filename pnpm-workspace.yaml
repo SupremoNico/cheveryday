@@ -29,3 +29,4 @@ minimumReleaseAgeExclude:
   - next@16.4.5
   - '@next/eslint-plugin-next@16.4.5'
   - eslint-config-next@16.4.5
+  - '@tiptap/extension-list@3.32.3'

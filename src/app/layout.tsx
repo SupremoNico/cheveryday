@@ -8,7 +8,9 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
   weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
 });
+
 const comfortaa = Comfortaa({
   subsets: ["latin"],
   variable: "--font-brand",

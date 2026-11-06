@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Field from "@/components/ui/field";
 import Icon from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import RichTextEditor from "@/components/ui/rich-text-editor";
 import {
   Select,
   SelectContent,
@@ -165,10 +165,9 @@ export default function ActivityPanel({
             </Field>
           </div>
           <Field label="Notes or accomplishments">
-            <Textarea
-              rows={4}
+            <RichTextEditor
               value={form.notes}
-              onChange={(event) => set("notes", event.target.value)}
+              onChange={(value) => set("notes", value)}
               placeholder="Capture details, outcomes, or anything to remember..."
             />
           </Field>
@@ -213,7 +212,9 @@ export default function ActivityPanel({
                 setPendingAction("delete");
                 const deleted = await onDelete(form.id);
                 if (!deleted) {
-                  setError(errorMessage ?? "Could not delete activity. Try again.");
+                  setError(
+                    errorMessage ?? "Could not delete activity. Try again.",
+                  );
                   setPendingAction(null);
                 }
               }}
