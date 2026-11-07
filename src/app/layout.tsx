@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import "./globals.css";
 import { Comfortaa, DM_Sans } from "next/font/google";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
   applicationName: "Cheveryday",
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
