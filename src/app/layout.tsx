@@ -18,8 +18,9 @@ const comfortaa = Comfortaa({
 });
 
 export const metadata: Metadata = {
-  title: "Daily Worksheet",
+  title: "Cheveryday",
   description: "A calmer way to plan your time, tasks, and progress.",
+  applicationName: "Cheveryday",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
