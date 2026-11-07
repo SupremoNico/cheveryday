@@ -37,14 +37,19 @@ export default function CalendarGrid({
           </div>
         ))}
       </div>
+
       <div className="month-grid">
         {days.map((date, index) => {
           const key = toDateKey(date);
-          const dayActivities = activities.filter(
-            (activity) =>
-              activity.date === key &&
-              activity.title.toLowerCase().includes(search.toLowerCase()),
-          );
+
+          const dayActivities = activities
+            .filter(
+              (activity) =>
+                activity.date === key &&
+                activity.title.toLowerCase().includes(search.toLowerCase()),
+            )
+            .sort((a, b) => b.id - a.id);
+
           const isToday = key === today;
           const isSelected = key === selected;
 
@@ -64,6 +69,7 @@ export default function CalendarGrid({
               <span className={`date-number ${isToday ? "today" : ""}`}>
                 {date.getDate()}
               </span>
+
               <div className="day-activities">
                 {dayActivities.slice(0, 3).map((activity) => (
                   <button
@@ -73,13 +79,17 @@ export default function CalendarGrid({
                       onViewActivity(activity);
                     }}
                     style={
-                      { "--activity-color": activity.color } as React.CSSProperties
+                      {
+                        "--activity-color": activity.color,
+                        color: "var(--activity-color)",
+                      } as React.CSSProperties
                     }
                   >
                     <i />
                     {activity.title}
                   </button>
                 ))}
+
                 {dayActivities.length > 3 && (
                   <button
                     className="more-activities"
@@ -93,6 +103,7 @@ export default function CalendarGrid({
                   </button>
                 )}
               </div>
+
               <button
                 className="day-add"
                 aria-label={`Add activity on ${key}`}

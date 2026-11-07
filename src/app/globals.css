@@ -1374,8 +1374,8 @@ h3 {
 
 .day-cell.selected {
   z-index: 2;
-  background: var(--selected, #eef2ff);
-  box-shadow: inset 0 0 0 1.5px var(--primary-bg, #5b5bd6);
+  /* background: var(--selected, #eef2ff); */
+  /* box-shadow: inset 0 0 0 1.5px var(--primary-bg, #5b5bd6); */
 }
 
 .day-cell.outside {
@@ -1824,6 +1824,249 @@ h3 {
   gap: 18px;
   overflow-y: auto;
   padding: 24px 27px;
+}
+
+/* =========================================
+   Activity Panel - Inputs
+========================================= */
+
+.panel-content input {
+  transition:
+    border-color 150ms ease,
+    outline-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* Input focus */
+.panel-content input:focus,
+.panel-content input:focus-visible {
+  border-color: var(--activity-color) !important;
+  outline: 2px solid color-mix(in srgb, var(--activity-color) 20%, transparent) !important;
+  outline-offset: 0;
+  box-shadow: none !important;
+}
+
+/* Input hover */
+.panel-content input:hover:not(:focus):not(:focus-visible) {
+  border-color: color-mix(
+    in srgb,
+    var(--activity-color) 45%,
+    var(--app-border)
+  );
+}
+
+/* Disabled inputs */
+.panel-content input:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Color picker */
+.panel-content input[type="color"] {
+  cursor: pointer;
+}
+
+/* =========================================
+   Activity Panel - Select Trigger
+========================================= */
+
+.panel-content [data-slot="select-trigger"] {
+  transition:
+    border-color 150ms ease,
+    outline-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* Select focus */
+.panel-content [data-slot="select-trigger"]:focus,
+.panel-content [data-slot="select-trigger"]:focus-visible {
+  border-color: var(--activity-color) !important;
+  outline: 2px solid color-mix(in srgb, var(--activity-color) 20%, transparent) !important;
+  outline-offset: 0;
+  box-shadow: none !important;
+}
+
+/* Select hover */
+.panel-content [data-slot="select-trigger"]:hover:not(:focus) {
+  border-color: color-mix(
+    in srgb,
+    var(--activity-color) 45%,
+    var(--app-border)
+  );
+}
+
+/* =========================================
+   Activity Panel - Select Dropdown
+========================================= */
+
+.activity-select-content {
+  border-color: color-mix(
+    in srgb,
+    var(--activity-color) 35%,
+    var(--app-border)
+  ) !important;
+}
+
+/* Dropdown item transitions */
+.activity-select-content [data-slot="select-item"] {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease;
+}
+
+/* Dropdown item hover / keyboard focus */
+.activity-select-content [data-slot="select-item"]:hover,
+.activity-select-content [data-slot="select-item"]:focus {
+  background: color-mix(
+    in srgb,
+    var(--activity-color) 12%,
+    transparent
+  ) !important;
+  color: var(--activity-color) !important;
+}
+
+/* Selected dropdown item */
+.activity-select-content [data-slot="select-item"][data-state="checked"] {
+  background: color-mix(
+    in srgb,
+    var(--activity-color) 16%,
+    transparent
+  ) !important;
+  color: var(--activity-color) !important;
+}
+
+/* Selected item hover */
+.activity-select-content [data-slot="select-item"][data-state="checked"]:hover {
+  background: color-mix(
+    in srgb,
+    var(--activity-color) 22%,
+    transparent
+  ) !important;
+}
+
+/* ========================================
+   Activity Rich Text Editor
+======================================== */
+
+.panel-content .rich-text-editor {
+  border: 1px solid var(--app-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+/* Editor hover */
+.panel-content .rich-text-editor:hover:not(:focus-within) {
+  border-color: color-mix(
+    in srgb,
+    var(--activity-color) 45%,
+    var(--app-border)
+  ) !important;
+}
+
+/* Editor focus */
+.panel-content .rich-text-editor:focus-within {
+  border-color: var(--activity-color) !important;
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--activity-color) 20%, transparent) !important;
+}
+
+/* ========================================
+   Toolbar
+======================================== */
+
+.panel-content .rich-text-editor .rich-text-toolbar {
+  border-bottom: 1px solid var(--app-border);
+}
+
+/* Toolbar button */
+.panel-content .rich-text-editor .rich-text-toolbar-button {
+  transition:
+    background-color 150ms ease,
+    color 150ms ease,
+    border-color 150ms ease;
+}
+
+/* Toolbar button hover */
+.panel-content .rich-text-editor .rich-text-toolbar-button:hover {
+  background: color-mix(
+    in srgb,
+    var(--activity-color) 14%,
+    transparent
+  ) !important;
+
+  color: var(--activity-color) !important;
+  border-color: transparent !important;
+}
+
+/* Active toolbar button */
+.panel-content .rich-text-editor .rich-text-toolbar-button.active {
+  background: color-mix(
+    in srgb,
+    var(--activity-color) 16%,
+    transparent
+  ) !important;
+
+  color: var(--activity-color) !important;
+}
+
+/* Active toolbar button hover */
+.panel-content .rich-text-editor .rich-text-toolbar-button.active:hover {
+  background: color-mix(
+    in srgb,
+    var(--activity-color) 24%,
+    transparent
+  ) !important;
+
+  color: var(--activity-color) !important;
+}
+
+/* Toolbar button keyboard focus */
+.panel-content .rich-text-editor .rich-text-toolbar-button:focus-visible {
+  outline: 2px solid var(--activity-color);
+  outline-offset: 2px;
+}
+
+/* Toolbar divider */
+.panel-content .rich-text-editor .rich-text-toolbar-divider {
+  opacity: 0.7;
+}
+
+/* ========================================
+   Editor Content
+======================================== */
+
+.panel-content .rich-text-editor .rich-text-content {
+  outline: none !important;
+}
+
+.panel-content .rich-text-editor .rich-text-content:focus {
+  outline: none !important;
+}
+
+/* Placeholder */
+.panel-content
+  .rich-text-editor
+  .rich-text-content
+  p.is-editor-empty:first-child::before {
+  color: var(--app-muted);
+}
+
+/* Text selection */
+.panel-content .rich-text-editor .rich-text-content ::selection {
+  background: color-mix(in srgb, var(--activity-color) 25%, transparent);
+}
+
+/* Checklist checkbox */
+.panel-content .rich-text-content ul[data-type="taskList"] li > label input {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: var(--activity-color);
+  cursor: pointer;
 }
 
 .form-row {
@@ -3755,12 +3998,16 @@ h3 {
   border-radius: 16px;
 }
 
+/* =========================================
+   Rich Text Editor
+========================================= */
+
 .rich-text-editor {
-  overflow: hidden;
   width: 100%;
+  overflow: hidden;
   border: 1px solid var(--app-border, #e5e7eb);
   border-radius: 10px;
-  background: var(--background, #fff);
+  background: var(--app-surface, #ffffff);
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease;
@@ -3773,27 +4020,32 @@ h3 {
 .rich-text-editor:focus-within {
   border-color: var(--app-primary, #6366f1);
   box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--app-primary, #6366f1) 12%, transparent);
+    color-mix(in srgb, var(--app-primary, #6366f1) 10%, transparent);
 }
 
-/* Toolbar */
+/* =========================================
+   Toolbar
+========================================= */
+
 .rich-text-toolbar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 4px;
-  padding: 8px;
+  padding: 8px 10px;
   border-bottom: 1px solid var(--app-border, #e5e7eb);
-  background: var(--background, #fff);
+  background: var(--app-surface-muted, #f9fafb);
 }
 
 .rich-text-toolbar-button {
-  display: flex;
+  display: inline-flex;
   width: 32px;
   height: 32px;
+  flex: 0 0 auto;
   align-items: center;
   justify-content: center;
   border: 0;
-  border-radius: 6px;
+  border-radius: 7px;
   background: transparent;
   color: var(--app-muted, #667085);
   cursor: pointer;
@@ -3804,7 +4056,7 @@ h3 {
 }
 
 .rich-text-toolbar-button:hover {
-  background: var(--app-hover, #f3f4f6);
+  background: var(--app-hover, #f0f1f3);
   color: var(--app-text, #172033);
 }
 
@@ -3813,8 +4065,8 @@ h3 {
 }
 
 .rich-text-toolbar-button.active {
-  background: var(--app-hover, #e5e7eb);
-  color: var(--app-text, #172033);
+  background: color-mix(in srgb, var(--app-primary, #6366f1) 10%, transparent);
+  color: var(--app-primary, #6366f1);
 }
 
 .rich-text-toolbar-button:focus-visible {
@@ -3822,22 +4074,44 @@ h3 {
   outline-offset: 2px;
 }
 
+.rich-text-toolbar-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .rich-text-toolbar-divider {
   width: 1px;
   height: 20px;
+  flex: 0 0 auto;
   margin: 0 4px;
   background: var(--app-border, #e5e7eb);
 }
 
-/* Editor content */
+/* =========================================
+   Editor Content
+========================================= */
+
 .rich-text-content {
-  min-height: 120px;
-  padding: 12px;
+  min-height: 140px;
+  padding: 14px;
   outline: none;
   color: var(--app-text, #172033);
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.7;
   overflow-wrap: break-word;
+  word-break: normal;
+}
+
+.rich-text-content:focus {
+  outline: none;
+}
+
+.rich-text-content > *:first-child {
+  margin-top: 0;
+}
+
+.rich-text-content > *:last-child {
+  margin-bottom: 0;
 }
 
 .rich-text-content p {
@@ -3848,31 +4122,39 @@ h3 {
   margin-bottom: 0;
 }
 
-/* Bold */
+/* =========================================
+   Text Formatting
+========================================= */
+
 .rich-text-content strong,
 .rich-text-content b {
   font-weight: 700;
 }
 
-/* Italic */
 .rich-text-content em,
 .rich-text-content i {
   font-style: italic;
 }
 
-/* Underline */
 .rich-text-content u {
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
-/* Bullet lists */
-.rich-text-content ul {
+/* =========================================
+   Bullet Lists
+========================================= */
+
+.rich-text-content ul:not([data-type="taskList"]) {
   margin: 8px 0;
   padding-left: 24px;
   list-style-type: disc;
 }
 
-/* Numbered lists */
+/* =========================================
+   Numbered Lists
+========================================= */
+
 .rich-text-content ol {
   margin: 8px 0;
   padding-left: 24px;
@@ -3881,24 +4163,36 @@ h3 {
 
 .rich-text-content li {
   display: list-item;
+  padding-left: 2px;
 }
 
 .rich-text-content li p {
   margin: 0;
 }
 
-/* Placeholder */
+.rich-text-content li + li {
+  margin-top: 4px;
+}
+
+/* =========================================
+   Placeholder
+========================================= */
+
 .rich-text-content p.is-editor-empty:first-child::before {
   float: left;
   height: 0;
-  color: #98a2b3;
+  color: var(--app-muted, #98a2b3);
   content: attr(data-placeholder);
   pointer-events: none;
+  opacity: 0.5;
 }
 
-/* Checklist */
+/* =========================================
+   Checklist
+========================================= */
+
 .rich-text-content ul[data-type="taskList"] {
-  margin: 8px 0;
+  margin: 10px 0;
   padding: 0;
   list-style: none;
 }
@@ -3906,8 +4200,9 @@ h3 {
 .rich-text-content ul[data-type="taskList"] li {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin: 6px 0;
+  gap: 9px;
+  margin: 7px 0;
+  padding: 0;
 }
 
 .rich-text-content ul[data-type="taskList"] li > label {
@@ -3922,13 +4217,13 @@ h3 {
   width: 15px;
   height: 15px;
   margin: 0;
-  accent-color: var(--app-primary);
+  accent-color: var(--app-primary, #6366f1);
   cursor: pointer;
 }
 
 .rich-text-content ul[data-type="taskList"] li > div {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 }
 
 .rich-text-content ul[data-type="taskList"] li > div p {
@@ -3936,13 +4231,42 @@ h3 {
 }
 
 .rich-text-content ul[data-type="taskList"] li[data-checked="true"] > div {
-  color: var(--app-muted);
+  color: var(--app-muted, #667085);
   text-decoration: line-through;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--app-muted, #667085) 60%,
+    transparent
+  );
 }
 
-/* Nested checklists */
+/* =========================================
+   Nested Checklists
+========================================= */
+
 .rich-text-content ul[data-type="taskList"] ul[data-type="taskList"] {
-  margin: 6px 0 6px 24px;
+  margin: 7px 0 7px 24px;
+}
+
+/* =========================================
+   Responsive
+========================================= */
+
+@media (max-width: 480px) {
+  .rich-text-toolbar {
+    gap: 3px;
+    padding: 7px;
+  }
+
+  .rich-text-toolbar-button {
+    width: 30px;
+    height: 30px;
+  }
+
+  .rich-text-content {
+    min-height: 120px;
+    padding: 12px;
+  }
 }
 
 /* Notes and accomplishments */
@@ -4027,9 +4351,12 @@ h3 {
   background: rgb(255 255 255 / 80%);
 }
 
-/* Checklist */
+/* =========================================
+   Checklist
+========================================= */
+
 .activity-notes-content ul[data-type="taskList"] {
-  margin: 8px 0;
+  margin: 10px 0;
   padding: 0;
   list-style: none;
 }
@@ -4037,8 +4364,9 @@ h3 {
 .activity-notes-content ul[data-type="taskList"] li {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
-  margin: 6px 0;
+  gap: 9px;
+  margin: 7px 0;
+  padding: 0;
 }
 
 .activity-notes-content ul[data-type="taskList"] li > label {
@@ -4046,32 +4374,70 @@ h3 {
   flex: 0 0 auto;
   align-items: center;
   margin-top: 4px;
+  cursor: pointer;
 }
 
 .activity-notes-content ul[data-type="taskList"] li > label input {
   width: 15px;
   height: 15px;
   margin: 0;
-  accent-color: var(--activity-color);
+  accent-color: var(--activity-color, var(--app-primary, #6366f1));
+  cursor: pointer;
 }
 
 .activity-notes-content ul[data-type="taskList"] li > div {
-  flex: 1;
   min-width: 0;
+  flex: 1;
 }
 
 .activity-notes-content ul[data-type="taskList"] li > div p {
   margin: 0;
 }
 
-.activity-notes-content ul[data-type="taskList"] li[data-checked="true"] > div {
-  color: var(--app-muted);
+/* =========================================
+   Checked Checklist Items
+========================================= */
+
+.activity-notes-content ul[data-type="taskList"] li[data-checked="true"] > div,
+.activity-notes-content
+  ul[data-type="taskList"]
+  li:has(> label input:checked)
+  > div {
+  color: var(--app-muted, #667085);
   text-decoration: line-through;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--app-muted, #667085) 60%,
+    transparent
+  );
 }
 
-/* Nested checklists */
+/* =========================================
+   Nested Checklists
+========================================= */
+
 .activity-notes-content ul[data-type="taskList"] ul[data-type="taskList"] {
-  margin: 6px 0 6px 24px;
+  margin: 7px 0 7px 24px;
+}
+
+.activity-notes-content {
+  position: relative;
+}
+
+.activity-notes-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  overflow: hidden;
+  background: var(--app-border);
+}
+
+.activity-notes-progress-bar {
+  height: 100%;
+  background: var(--activity-color);
+  transition: width 150ms ease;
 }
 
 @media (max-width: 900px) {

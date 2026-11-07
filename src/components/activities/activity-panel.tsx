@@ -39,23 +39,34 @@ export default function ActivityPanel({
   const [pendingAction, setPendingAction] = useState<"save" | "delete" | null>(
     null,
   );
+
   const set = (key: keyof Activity, value: string) =>
     setForm((current) => ({ ...current, [key]: value }));
+
   const categoryColor = (category: Category) =>
     theme[categoryColorKey(category)];
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
     if (pendingAction) return;
+
     const result = activitySchema.safeParse(form);
+
     if (!result.success) {
       setError(result.error.issues[0]?.message ?? "Check activity details.");
       return;
     }
+
     setError("");
     setPendingAction("save");
+
     const saved = await onSave(result.data);
-    if (!saved) setError(errorMessage ?? "Could not save activity. Try again.");
+
+    if (!saved) {
+      setError(errorMessage ?? "Could not save activity. Try again.");
+    }
+
     setPendingAction(null);
   }
 
@@ -85,6 +96,7 @@ export default function ActivityPanel({
               {form.id ? "Update your activity" : "Plan something meaningful"}
             </h2>
           </div>
+
           <button
             type="button"
             className="icon-btn"
@@ -95,7 +107,15 @@ export default function ActivityPanel({
             <Icon name="close" />
           </button>
         </div>
-        <div className="panel-content">
+
+        <div
+          className="panel-content"
+          style={
+            {
+              "--activity-color": form.color,
+            } as React.CSSProperties
+          }
+        >
           <Field label="Activity title">
             <Input
               required
@@ -105,6 +125,7 @@ export default function ActivityPanel({
               placeholder="What are you working on?"
             />
           </Field>
+
           <Field label="Description">
             <Input
               value={form.description}
@@ -112,23 +133,32 @@ export default function ActivityPanel({
               placeholder="Add a short description"
             />
           </Field>
+
           <div className="form-row">
             <Field label="Category">
               <Select
                 value={form.category}
                 onValueChange={(value) => {
                   const category = value as Category;
+
                   setForm((current) => ({
                     ...current,
                     category,
-                    color: categoryColor(category),
                   }));
                 }}
               >
                 <SelectTrigger aria-label="Category">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+
+                <SelectContent
+                  className="activity-select-content"
+                  style={
+                    {
+                      "--activity-color": form.color,
+                    } as React.CSSProperties
+                  }
+                >
                   {CATEGORIES.map((category) => (
                     <SelectItem key={category} value={category}>
                       {category}
@@ -137,6 +167,7 @@ export default function ActivityPanel({
                 </SelectContent>
               </Select>
             </Field>
+
             <Field label="Date">
               <Input
                 required
@@ -146,6 +177,7 @@ export default function ActivityPanel({
               />
             </Field>
           </div>
+
           <div className="form-row">
             <Field label="Start time">
               <Input
@@ -155,6 +187,7 @@ export default function ActivityPanel({
                 onChange={(event) => set("start", event.target.value)}
               />
             </Field>
+
             <Field label="End time">
               <Input
                 required
@@ -164,6 +197,7 @@ export default function ActivityPanel({
               />
             </Field>
           </div>
+
           <Field label="Notes or accomplishments">
             <RichTextEditor
               value={form.notes}
@@ -171,6 +205,7 @@ export default function ActivityPanel({
               placeholder="Capture details, outcomes, or anything to remember..."
             />
           </Field>
+
           <Field label="Activity color">
             <div className="activity-colors">
               {CATEGORIES.map((category) => (
@@ -186,6 +221,7 @@ export default function ActivityPanel({
                   onClick={() => set("color", categoryColor(category))}
                 />
               ))}
+
               <Input
                 aria-label="Custom activity color"
                 type="color"
@@ -194,12 +230,14 @@ export default function ActivityPanel({
               />
             </div>
           </Field>
+
           {error && (
             <p className="form-error" role="alert">
               {error}
             </p>
           )}
         </div>
+
         <div className="panel-footer">
           {form.id ? (
             <button
@@ -208,9 +246,12 @@ export default function ActivityPanel({
               disabled={pendingAction !== null}
               onClick={async () => {
                 if (pendingAction) return;
+
                 setError("");
                 setPendingAction("delete");
+
                 const deleted = await onDelete(form.id);
+
                 if (!deleted) {
                   setError(
                     errorMessage ?? "Could not delete activity. Try again.",
@@ -228,6 +269,7 @@ export default function ActivityPanel({
           ) : (
             <span />
           )}
+
           <div>
             <Button
               type="button"
@@ -238,6 +280,7 @@ export default function ActivityPanel({
             >
               Cancel
             </Button>
+
             <Button
               className="primary-btn"
               type="submit"

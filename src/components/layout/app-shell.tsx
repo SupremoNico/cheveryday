@@ -146,6 +146,7 @@ export default function AppShell({
               setEditing(viewing);
               setViewing(null);
             }}
+            onSave={(activity) => saveActivity(activity, { silent: true })}
           />
         )}
         {editing !== undefined && editing !== null && (
