@@ -1489,8 +1489,12 @@ h3 {
   height: 23px;
   border: 0;
   border-radius: 5px;
-  background: color-mix(in srgb, var(--primary-bg, #5b5bd6) 9%, white);
-  color: var(--primary-bg, #5b5bd6);
+  background: color-mix(
+    in srgb,
+    var(--app-primary) 9%,
+    var(--app-surface)
+  );
+  color: var(--app-primary);
   opacity: 0;
   place-items: center;
   transition: opacity 0.15s;
