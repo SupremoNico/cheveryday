@@ -4034,7 +4034,6 @@ h3 {
   gap: 4px;
   padding: 8px 10px;
   border-bottom: 1px solid var(--app-border, #e5e7eb);
-  background: var(--app-surface-muted, #f9fafb);
 }
 
 .rich-text-toolbar-button {
