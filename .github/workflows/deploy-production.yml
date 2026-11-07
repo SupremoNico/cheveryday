@@ -45,22 +45,28 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 5. Run ESLint and TypeScript checks
+      # 5. Generate Prisma Client
+      - name: Generate Prisma Client
+        run: pnpm db:generate
+        env:
+          DIRECT_URL: ${{ secrets.DIRECT_URL }}
+
+      # 6. Run ESLint and TypeScript checks
       - name: Run code checks
         run: pnpm check
 
-      # 6. Install Vercel CLI
+      # 7. Install Vercel CLI
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      # 7. Pull production environment variables
+      # 8. Pull production environment variables
       - name: Pull Vercel production environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      # 8. Build production deployment
+      # 9. Build production deployment
       - name: Build production deployment
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
@@ -68,13 +74,13 @@ jobs:
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
-      # 9. Run production database migrations
+      # 10. Run production database migrations
       - name: Run production database migrations
         run: pnpm db:migrate:deploy
         env:
           DIRECT_URL: ${{ secrets.DIRECT_URL }}
 
-      # 10. Deploy prebuilt application to Vercel
+      # 11. Deploy prebuilt application to Vercel
       - name: Deploy to Vercel
         run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
