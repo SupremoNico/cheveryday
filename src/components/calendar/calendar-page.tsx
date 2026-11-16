@@ -5,6 +5,7 @@ import CalendarToolbar from "@/components/calendar/calendar-toolbar";
 import DayView from "@/components/calendar/day-view";
 import MonthView from "@/components/calendar/month-view";
 import WeekView from "@/components/calendar/week-view";
+import { useAppSettings } from "@/hooks/use-settings";
 import type { Activity } from "@/types/activity";
 import type { View } from "@/types/calendar";
 
@@ -35,6 +36,8 @@ export default function CalendarPage({
   onViewActivity: (activity: Activity) => void;
   onViewDay: (date: string) => void;
 }) {
+  const { settings } = useAppSettings();
+
   return (
     <div className="calendar-page">
       <CalendarToolbar
@@ -53,6 +56,9 @@ export default function CalendarPage({
           onNew={onNew}
           onViewActivity={onViewActivity}
           onViewDay={onViewDay}
+          allowWeekendActivityCreation={
+            settings.allowWeekendActivityCreation
+          }
         />
       ) : view === "week" ? (
         <WeekView
@@ -62,6 +68,9 @@ export default function CalendarPage({
           activities={activities}
           onNew={onNew}
           onViewActivity={onViewActivity}
+          allowWeekendActivityCreation={
+            settings.allowWeekendActivityCreation
+          }
         />
       ) : (
         <DayView

@@ -11,6 +11,7 @@ export default function WeekView({
   activities,
   onNew,
   onViewActivity,
+  allowWeekendActivityCreation = true,
 }: {
   cursor: Date;
   selected: string;
@@ -18,6 +19,7 @@ export default function WeekView({
   activities: Activity[];
   onNew: (date?: string) => void;
   onViewActivity: (activity: Activity) => void;
+  allowWeekendActivityCreation?: boolean;
 }) {
   const monday = new Date(cursor);
   monday.setDate(cursor.getDate() - ((cursor.getDay() + 6) % 7));
@@ -26,10 +28,11 @@ export default function WeekView({
     date.setDate(monday.getDate() + index);
     return date;
   });
+  const columns = "58px repeat(7, minmax(0, 1fr))";
 
   return (
     <div className="week-card">
-      <div className="week-head">
+      <div className="week-head" style={{ gridTemplateColumns: columns }}>
         <div />
         {days.map((date) => {
           const key = toDateKey(date);
@@ -45,7 +48,7 @@ export default function WeekView({
           );
         })}
       </div>
-      <div className="week-body">
+      <div className="week-body" style={{ gridTemplateColumns: columns }}>
         <div className="time-col">
           {["8 AM", "10 AM", "12 PM", "2 PM", "4 PM", "6 PM"].map((time) => (
             <span key={time}>{time}</span>
@@ -53,8 +56,23 @@ export default function WeekView({
         </div>
         {days.map((date) => {
           const key = toDateKey(date);
+          const isWeekend = date.getDay() === 0 || date.getDay() === 6;
+          const canCreate = !isWeekend || allowWeekendActivityCreation;
           return (
-            <div key={key} className="week-day" onClick={() => onNew(key)}>
+            <div
+              key={key}
+              className={`week-day ${canCreate ? "" : "creation-disabled"}`}
+              title={
+                canCreate
+                  ? undefined
+                  : "Weekend activity creation is disabled in Settings."
+              }
+              onClick={() => {
+                if (canCreate) {
+                  onNew(key);
+                }
+              }}
+            >
               {activities
                 .filter((activity) => activity.date === key)
                 .map((activity, index) => (

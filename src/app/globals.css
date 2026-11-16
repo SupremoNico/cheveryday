@@ -1505,6 +1505,16 @@ h3 {
   opacity: 1;
 }
 
+.day-add:disabled {
+  background: var(--app-surface-muted);
+  color: var(--app-text-muted);
+  cursor: not-allowed;
+}
+
+.week-day.creation-disabled {
+  cursor: not-allowed;
+}
+
 .calendar-legend {
   display: flex;
   align-items: center;

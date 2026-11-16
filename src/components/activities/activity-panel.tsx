@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent, type MouseEvent } from "react";
 import { CATEGORIES } from "@/constants/categories";
-import { categoryColorKey } from "@/lib/dates";
+import { categoryColorKey, fromDateKey } from "@/lib/dates";
 import { activitySchema } from "@/lib/validations/activity.schema";
 import { Button } from "@/components/ui/button";
 import Field from "@/components/ui/field";
@@ -22,6 +22,7 @@ import type { Theme } from "@/types/theme";
 export default function ActivityPanel({
   activity,
   theme,
+  allowWeekendActivityCreation,
   onClose,
   onSave,
   onDelete,
@@ -29,6 +30,7 @@ export default function ActivityPanel({
 }: {
   activity: Activity;
   theme: Theme;
+  allowWeekendActivityCreation: boolean;
   onClose: () => void;
   onSave: (activity: Activity) => Promise<boolean>;
   onDelete: (id: number) => Promise<boolean>;
@@ -55,6 +57,15 @@ export default function ActivityPanel({
 
     if (!result.success) {
       setError(result.error.issues[0]?.message ?? "Check activity details.");
+      return;
+    }
+
+    if (
+      !form.id &&
+      !allowWeekendActivityCreation &&
+      [0, 6].includes(fromDateKey(form.date).getDay())
+    ) {
+      setError("Weekend activity creation is disabled in Settings.");
       return;
     }
 
