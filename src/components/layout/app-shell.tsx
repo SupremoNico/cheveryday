@@ -9,8 +9,10 @@ import DayActivitiesPanel from "@/components/calendar/day-activities-panel";
 import AppHeader from "@/components/layout/app-header";
 import AppSidebar from "@/components/layout/app-sidebar";
 import MobileNavigation from "@/components/layout/mobile-navigation";
+import { fromDateKey } from "@/lib/dates";
 import { AuthUserProvider } from "@/providers/auth-user-provider";
 import usePlanner from "@/hooks/use-planner";
+import { useAppSettings } from "@/hooks/use-settings";
 import { ThemePortalProvider } from "@/components/ui/theme-portal";
 import NotificationToast from "@/components/ui/notification-toast";
 import type { Page } from "@/types/calendar";
@@ -48,6 +50,7 @@ export default function AppShell({
     saveActivity,
     deleteActivity,
   } = usePlanner();
+  const { settings } = useAppSettings();
   const currentPage: Page = pathname.startsWith("/activities")
     ? "activities"
     : pathname.startsWith("/appearance")
@@ -121,6 +124,10 @@ export default function AppShell({
             activities={activities.filter(
               (activity) => activity.date === dayDetails,
             )}
+            allowNewActivity={
+              settings.allowWeekendActivityCreation ||
+              ![0, 6].includes(fromDateKey(dayDetails).getDay())
+            }
             onClose={() => setDayDetails(undefined)}
             onNew={() => {
               const date = dayDetails;
@@ -154,6 +161,9 @@ export default function AppShell({
             key={editing.id || "new"}
             activity={editing}
             theme={theme}
+            allowWeekendActivityCreation={
+              settings.allowWeekendActivityCreation
+            }
             onClose={() => setEditing(undefined)}
             onSave={saveActivity}
             onDelete={deleteActivity}

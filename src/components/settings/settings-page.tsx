@@ -1,19 +1,21 @@
 "use client";
 
-import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import UserAvatar from "@/components/layout/user-avatar";
+import { useAppSettings } from "@/hooks/use-settings";
 import { useAuthUser } from "@/providers/auth-user-provider";
 
 function Setting({
   title,
   description,
   checked,
+  disabled,
   onChange,
 }: {
   title: string;
   description: string;
   checked: boolean;
+  disabled: boolean;
   onChange: () => void;
 }) {
   return (
@@ -23,10 +25,12 @@ function Setting({
         <p>{description}</p>
       </div>
       <button
+        type="button"
         className={`toggle ${checked ? "on" : ""}`}
         role="switch"
         aria-checked={checked}
         aria-label={title}
+        disabled={disabled}
         onClick={onChange}
       >
         <span />
@@ -36,14 +40,17 @@ function Setting({
 }
 
 export default function SettingsPage() {
-  const [weekends, setWeekends] = useState(true);
-  const [reminders, setReminders] = useState(true);
-  const [digest, setDigest] = useState(false);
+  const { settings, isSaving, error, updateSetting } = useAppSettings();
   const user = useAuthUser();
-  const displayName = user.name.trim() || user.email.split("@")[0];
+  const displayName = user.name?.trim() || user.email?.split("@")[0] || "Your account";
 
   return (
     <section className="settings-page">
+      {error && (
+        <p className="auth-error" role="alert">
+          {error}
+        </p>
+      )}
       <div className="settings-card">
         <div className="settings-card-heading">
           <span className="settings-icon">
@@ -55,10 +62,16 @@ export default function SettingsPage() {
           </div>
         </div>
         <Setting
-          title="Show weekends"
-          description="Include Saturday and Sunday in your calendar."
-          checked={weekends}
-          onChange={() => setWeekends((value) => !value)}
+          title="Allow weekend activity creation"
+          description="Weekend activities stay visible. Turn this off to prevent creating new ones on Saturday and Sunday."
+          checked={settings.allowWeekendActivityCreation}
+          disabled={isSaving}
+          onChange={() =>
+            updateSetting(
+              "allowWeekendActivityCreation",
+              !settings.allowWeekendActivityCreation,
+            )
+          }
         />
       </div>
       <div className="settings-card">
@@ -74,14 +87,16 @@ export default function SettingsPage() {
         <Setting
           title="Activity reminders"
           description="Get a reminder before an activity starts."
-          checked={reminders}
-          onChange={() => setReminders((value) => !value)}
+          checked={settings.reminders}
+          disabled={isSaving}
+          onChange={() => updateSetting("reminders", !settings.reminders)}
         />
         <Setting
           title="Weekly digest"
           description="Receive a weekly summary of your activities."
-          checked={digest}
-          onChange={() => setDigest((value) => !value)}
+          checked={settings.weeklyDigest}
+          disabled={isSaving}
+          onChange={() => updateSetting("weeklyDigest", !settings.weeklyDigest)}
         />
       </div>
       <div className="settings-card account-card">

@@ -52,7 +52,7 @@ Set the runtime environment variables in Vercel and add `https://your-domain.com
 - `src/lib/`, `src/types/`, and `src/constants/` contain auth/database clients, date utilities, domain types, and UI/sample data.
 - `components.json` configures shadcn/ui; generated primitives live in `src/components/ui/`.
 
-Authentication, sessions, planner activities, and appearance settings are persisted in Neon PostgreSQL.
+Authentication, sessions, planner activities, appearance, and user settings are persisted in Neon PostgreSQL.
 
 ## Checks
 

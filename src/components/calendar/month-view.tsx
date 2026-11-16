@@ -14,6 +14,7 @@ export function MonthCalendar({
   onNew,
   onViewActivity,
   onViewDay,
+  allowWeekendActivityCreation = true,
 }: {
   cursor: Date;
   selected: string;
@@ -23,6 +24,7 @@ export function MonthCalendar({
   onNew: (date: string) => void;
   onViewActivity: (activity: Activity) => void;
   onViewDay: (date: string) => void;
+  allowWeekendActivityCreation?: boolean;
 }) {
   const days = useMemo(() => {
     const first = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
@@ -47,6 +49,7 @@ export function MonthCalendar({
       onNew={onNew}
       onViewActivity={onViewActivity}
       onViewDay={onViewDay}
+      allowWeekendActivityCreation={allowWeekendActivityCreation}
     />
   );
 }
