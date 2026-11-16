@@ -16,6 +16,7 @@ export default function CalendarGrid({
   onNew,
   onViewActivity,
   onViewDay,
+  allowWeekendActivityCreation = true,
 }: {
   days: Date[];
   month: number;
@@ -27,6 +28,7 @@ export default function CalendarGrid({
   onNew: (date: string) => void;
   onViewActivity: (activity: Activity) => void;
   onViewDay: (date: string) => void;
+  allowWeekendActivityCreation?: boolean;
 }) {
   return (
     <div className="calendar-card">
@@ -39,8 +41,9 @@ export default function CalendarGrid({
       </div>
 
       <div className="month-grid">
-        {days.map((date, index) => {
+        {days.map((date) => {
           const key = toDateKey(date);
+          const isWeekend = date.getDay() === 0 || date.getDay() === 6;
 
           const dayActivities = activities
             .filter(
@@ -58,7 +61,7 @@ export default function CalendarGrid({
               key={key}
               className={`day-cell ${
                 date.getMonth() !== month ? "outside" : ""
-              } ${index % 7 > 4 ? "weekend" : ""} ${
+              } ${isWeekend ? "weekend" : ""} ${
                 isSelected ? "selected" : ""
               }`}
               onClick={() => {
@@ -106,7 +109,12 @@ export default function CalendarGrid({
 
               <button
                 className="day-add"
-                aria-label={`Add activity on ${key}`}
+                aria-label={
+                  isWeekend && !allowWeekendActivityCreation
+                    ? `Weekend activity creation is disabled for ${key}`
+                    : `Add activity on ${key}`
+                }
+                disabled={isWeekend && !allowWeekendActivityCreation}
                 onClick={(event) => {
                   event.stopPropagation();
                   setSelected(key);

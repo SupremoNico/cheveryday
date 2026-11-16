@@ -33,6 +33,7 @@ export type PlannerContextValue = {
   mutationError: string | null;
   notification: AppNotification | null;
   dismissNotification: () => void;
+  showNotification: (notification: AppNotification) => void;
   cursor: Date;
   selected: string;
   view: View;
@@ -78,6 +79,10 @@ export function PlannerProvider({
   );
 
   const dismissNotification = useCallback(() => setNotification(null), []);
+  const showNotification = useCallback(
+    (nextNotification: AppNotification) => setNotification(nextNotification),
+    [],
+  );
 
   const [initialDate] = useState(() => new Date());
   const [cursor, setCursor] = useState(initialDate);
@@ -337,6 +342,7 @@ export function PlannerProvider({
     mutationError,
     notification,
     dismissNotification,
+    showNotification,
     cursor,
     selected,
     view,

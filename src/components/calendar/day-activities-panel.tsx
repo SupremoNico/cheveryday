@@ -9,6 +9,7 @@ import type { Activity } from "@/types/activity";
 export default function DayActivitiesPanel({
   date,
   activities,
+  allowNewActivity,
   onClose,
   onNew,
   onEdit,
@@ -17,6 +18,7 @@ export default function DayActivitiesPanel({
 }: {
   date: string;
   activities: Activity[];
+  allowNewActivity: boolean;
   onClose: () => void;
   onNew: () => void;
   onEdit: (activity: Activity) => void;
@@ -131,7 +133,16 @@ export default function DayActivitiesPanel({
               ? `All ${sorted.length} activities are shown`
               : "Everything planned for this day"}
           </span>
-          <button className="primary-btn" onClick={onNew}>
+          <button
+            className="primary-btn"
+            disabled={!allowNewActivity}
+            title={
+              allowNewActivity
+                ? undefined
+                : "Weekend activity creation is disabled in Settings."
+            }
+            onClick={onNew}
+          >
             <Icon name="plus" size={17} /> Add activity
           </button>
         </div>
