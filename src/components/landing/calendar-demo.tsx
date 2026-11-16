@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { use, useMemo, useState } from "react";
 import { ArrowLeft, ArrowRight, CalendarDays, Plus } from "lucide-react";
+import { io } from "next/cache";
 
 type View = "month" | "week" | "day";
 type EventColor = "purple" | "peach" | "green";
@@ -39,21 +40,13 @@ function eventsAround(today: Date): Record<string, DemoEvent[]> {
 }
 
 export default function CalendarDemo() {
-  const [month, setMonth] = useState(new Date(2026, 10, 1));
-  const [today, setToday] = useState(new Date(2026, 10, 16));
-  const [selected, setSelected] = useState(new Date(2026, 10, 16));
+  use(io());
+  const [today] = useState(() => new Date());
+  const [month, setMonth] = useState(() => new Date(today.getFullYear(), today.getMonth(), 1));
+  const [selected, setSelected] = useState(today);
   const [view, setView] = useState<View>("month");
-  const [events, setEvents] = useState<Record<string, DemoEvent[]>>({});
+  const [events, setEvents] = useState<Record<string, DemoEvent[]>>(() => eventsAround(today));
   const [message, setMessage] = useState("");
-
-  useEffect(() => {
-    const localToday = new Date();
-    const firstOfMonth = new Date(localToday.getFullYear(), localToday.getMonth(), 1);
-    setToday(localToday);
-    setSelected(localToday);
-    setMonth(firstOfMonth);
-    setEvents(eventsAround(localToday));
-  }, []);
 
   const dates = useMemo(() => {
     if (view === "day") return [new Date(selected.getFullYear(), selected.getMonth(), selected.getDate())];
