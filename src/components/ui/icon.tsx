@@ -5,6 +5,9 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Contrast,
+  ListChecks,
+  ListTodo,
   LogOut,
   LoaderCircle,
   Menu,
@@ -34,7 +37,10 @@ export type IconName =
   | "check"
   | "chevron"
   | "menu"
-  | "loader";
+  | "loader"
+  | "list-checks"
+  | "list-todo"
+  | "contrast";
 
 const icons: Record<
   IconName,
@@ -56,6 +62,9 @@ const icons: Record<
   chevron: ChevronDown,
   menu: Menu,
   loader: LoaderCircle,
+  "list-checks": ListChecks,
+  "list-todo": ListTodo,
+  contrast: Contrast,
 };
 
 export default function Icon({
@@ -67,6 +76,7 @@ export default function Icon({
   size?: number;
 } & SVGProps<SVGSVGElement>) {
   const IconComponent = icons[name];
+
   return (
     <IconComponent
       aria-hidden="true"
