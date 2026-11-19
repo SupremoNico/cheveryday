@@ -12,20 +12,30 @@ const navigation: {
   icon: IconName;
   label: string;
 }[] = [
-  { href: "/calendar", page: "calendar", icon: "calendar", label: "Calendar" },
+  {
+    href: "/calendar",
+    page: "calendar",
+    icon: "calendar",
+    label: "Calendar",
+  },
   {
     href: "/activities",
     page: "activities",
-    icon: "activity",
+    icon: "list-checks",
     label: "My Activities",
   },
   {
     href: "/appearance",
     page: "appearance",
-    icon: "palette",
+    icon: "contrast",
     label: "Appearance",
   },
-  { href: "/settings", page: "settings", icon: "settings", label: "Settings" },
+  {
+    href: "/settings",
+    page: "settings",
+    icon: "settings",
+    label: "Settings",
+  },
 ];
 
 export default function AppSidebar({
@@ -53,8 +63,10 @@ export default function AppSidebar({
         <BrandLogo className="brand-mark" />
         <span className="brand-wordmark">Cheveryday</span>
       </Link>
+
       <nav aria-label="Workspace">
         <p>WORKSPACE</p>
+
         {navigation.map((item) => (
           <Link
             key={item.page}
@@ -64,8 +76,10 @@ export default function AppSidebar({
             onClick={onNavigate}
           >
             <Icon name={item.icon} />
+
             <span>
               {item.label}
+
               {item.page === "activities" && (
                 <span className="nav-count">{activityCount}</span>
               )}
@@ -73,9 +87,11 @@ export default function AppSidebar({
           </Link>
         ))}
       </nav>
+
       <div className="sidebar-bottom">
         <div className="user">
           <UserAvatar user={user} className="avatar" />
+
           <div>
             <strong>{displayName}</strong>
             <span>{user.email}</span>
